@@ -254,9 +254,10 @@ class RoboticDogSimulation:
 
         for obstacle in self.obstacles:
             obs_rect = pygame.Rect(obstacle.x - buffer, obstacle.y - buffer,
-                                   obstacle.width + buffer * 2,
-                                   obstacle.height + buffer * 2)
+                                   obstacle.width ,
+                                   obstacle.height )
             if dog_rect.colliderect(obs_rect):
+                self.dog.target_y=self.dog.y+10 if obstacle.y<WINDOW_HEIGHT/2 else self.dog.y-10
                 return True
         return False
 
@@ -292,7 +293,6 @@ class RoboticDogSimulation:
                 # If collision detected, revert target to current position
                 # This prevents the dog from moving into walls
                 self.dog.target_x = self.dog.x
-                self.dog.target_y = self.dog.y
             # Smooth movement animation
             self.dog.velocity_x += (self.dog.target_x - self.dog.x) * 0.02
             self.dog.velocity_y += (self.dog.target_y - self.dog.y) * 0.02

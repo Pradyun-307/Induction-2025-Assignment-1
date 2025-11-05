@@ -131,8 +131,6 @@ class RoboticDog:
         self.size = 20
         self.velocity_x = 0
         self.velocity_y = 0
-        self.previous_x=100
-        self.previous_y=300
 
     def add_leg(self, leg):
         """Add a leg to the robotic dog"""
@@ -226,22 +224,7 @@ class RoboticDog:
         dy = ball_pos[1] - self.y
         # Simple approach: move directly toward the ball
         # This works on simple mazes but struggles with complex ones!
-        move_speed = 2
-        for i in range(len(obstacle_data)):
-            if self.x<obstacle_data[i]['x']<ball_pos[0] or self.y<obstacle_data[i]['y']<ball_pos[1]:
-                obs_center_x = obstacle_data[i]['x'] + obstacle_data[i]['width'] /2
-                obs_center_y = obstacle_data[i]['y'] + obstacle_data[i]['height'] /2
-                distance_to_obs = ((obs_center_x - self.x)**2 + ((obs_center_y - self.y))**2)**0.5
-                if distance_to_obs < 100:
-                    self.previous_x=self.x
-                    self.previous_y=self.y
-                    self.move(0, obstacle_data[i]["height"]-self.y if obstacle_data[i]['y']>300 else self.y-obstacle_data[i]['height'])
-                    return
-        if self.x==self.previous_x:
-            self.move(-move_speed*10, 0)
-            return
-        self.previous_x=self.x
-        self.previous_y=self.y
+        move_speed = 5
         if abs(dx) > 5:
             self.move(move_speed if dx > 0 else -move_speed, 0)
         if abs(dy) > 5:
